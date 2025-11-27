@@ -1,4 +1,4 @@
-import { SouBotao } from "../button";
+import { SouBotao } from "./button";
 
 export function HelloWd() {
     return (
