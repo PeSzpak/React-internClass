@@ -1,12 +1,8 @@
-import { HelloWd } from "./assets/hello";
-import { SouBotao } from "./button";
-
+import { HelloWd } from "./hello";
 function App() {
   return (
     <>
       <HelloWd />
-      <br />
-      <SouBotao />
     </>
   );
 }
