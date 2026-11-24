@@ -1,74 +1,57 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 # React-internClass
+
+Projeto de estudo de React com TypeScript, seguindo um roteiro de estagiário do básico ao avançado. Cada passo vira um componente pequeno: JSX, props, `useState`, `useEffect`, renderização condicional e styled-components.
+
+![Contador com botões de aumentar e diminuir](docs/media/contador.webp)
+
+## O que já foi praticado
+
+| Conceito | Onde |
+|---|---|
+| Componentes e composição | `App` → `HelloWd` → `SouBotao` → `HideOrShow` + `CounterBtn` |
+| Props tipadas (interface) | `CounterBtn` recebe `textup` e `textdown` |
+| `useState` | Contador (`contador.tsx`), visibilidade (`button.tsx`), input e checkbox controlados (`hideOrShow.tsx`) |
+| Atualização funcional de estado | `setCounter(prev => Math.max(0, prev - 1))` impede valores negativos |
+| Renderização condicional | O botão "diminuir" só aparece com contador > 0; "Hide Or Show button" monta/desmonta o bloco |
+| `useEffect` com cleanup | `HideOrShow` loga "builded" ao montar e "Destroyed" ao desmontar (veja o console) |
+| styled-components | `style.tsx` define o `Button` com borda rosa |
+
+Ao clicar em "Hide Or Show button", o input, o checkbox e o contador são desmontados (e o estado deles se perde):
+
+![Componentes ocultos](docs/media/oculto.webp)
+
+## Stack
+
+React 19, TypeScript 5.9, Vite 7, styled-components 6, ESLint 9.
+
+## Como rodar
+
+Pré-requisito: Node.js 20.19+ (exigido pelo Vite 7).
+
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # tsc -b && vite build
+npm run lint
+npm run preview   # serve o build
+```
+
+## Estrutura
+
+```
+src/
+├── main.tsx              # createRoot + StrictMode
+├── App.tsx               # renderiza HelloWd
+├── hello.tsx             # HelloWd: título + SouBotao
+├── button.tsx            # SouBotao: alterna visibilidade
+├── style.tsx             # Button (styled-components)
+├── index.css             # estilos globais do template Vite
+└── components/
+    ├── contador.tsx      # CounterBtn
+    └── hideOrShow.tsx    # input + checkbox controlados, useEffect
+```
+
+## Observações
+
+- Em modo dev, o `StrictMode` monta os componentes duas vezes, então "builded"/"Destroyed" aparecem duplicados no console. É esperado.
+- Não há testes automatizados.
